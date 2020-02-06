@@ -1,3 +1,5 @@
+#include "DataSecurity.h";
+
 class WiffiObject{  
   //ATÉ QUE O NÚMERO DE TENTATIVAS EXPIRE (RESULTANDO EM WL_NO_SHIELD) OU QUE UMA CONEXÃO SEJA ESTABELECIDA
   //(RESULTANDO EM WL_CONNECTED)
@@ -5,7 +7,7 @@ class WiffiObject{
   
   WiFiEspClient client;
 
-  void sendHttpResponse(WiFiEspClient client){
+  void sendHttpResponse(WiFiEspClient client, DataSecurityObject data){
       client.println("HTTP/1.1 200 OK"); //ESCREVE PARA O CLIENTE A VERSÃO DO HTTP
       client.println("Content-Type: text/html"); //ESCREVE PARA O CLIENTE O TIPO DE CONTEÚDO(texto/html)
       client.println("");
@@ -15,7 +17,12 @@ class WiffiObject{
       client.println("<script type=\"text/javascript\" src=\"http://devlucasnascimento.com.br/Arduino/loadHtml.js \"></script>");               
       client.println("</head>"); // FEACHA A TAG "head"
       client.println("<body>"); 
-      client.println("<iframe id=\"contentTest\">teste</iframe>");
+      client.println("<iframe id=\"contentTest\">");
+      client.println(data.ip[0]);
+      client.println("." + data.ip[1]);
+      client.println("." + data.ip[2]);
+      client.println("." + data.ip[3]);
+      client.println("</iframe>");
       if (statusLed == HIGH){ //SE VARIÁVEL FOR IGUAL A HIGH (1), FAZ
         client.println("<p style='line-height:0'><font color='green'>LIGADO</font></p>"); //ESCREVE "LIGADO" NA PÁGINA
         client.println("<a href=\"/L\">APAGAR</a>"); //COMANDO PARA APAGAR O LED (PASSA O PARÂMETRO /L)
@@ -38,7 +45,7 @@ class WiffiObject{
       //FIM - VERIFICA SE O ESP8266 ESTÁ CONECTADO AO ARDUINO, CONECTA A REDE SEM FIO E INICIA O WEBSERVER
     }
     
-    void update(WiFiEspServer server, RingBuffer buf){    
+    void update(WiFiEspServer server, RingBuffer buf, DataSecurityObject data){    
       if (client) { //SE CLIENTE TENTAR SE CONECTAR, FAZ
       
         buf.init(); //INICIALIZA O BUFFER
@@ -62,7 +69,7 @@ class WiffiObject{
             } 
             else if(buf.endsWith("\r\n\r\n")) {
               
-                sendHttpResponse(client);
+                sendHttpResponse(client, data);
               Serial.println("hello site");
               break;
             }

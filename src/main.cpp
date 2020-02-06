@@ -1,7 +1,6 @@
 #include "WiFiEsp.h"; //INCLUSÃO DA BIBLIOTECA
 #include "SoftwareSerial.h";//INCLUSÃO DA BIBLIOTECA
 #include "WiffiClass.h";
-#include "DataSecurity.h";
 
 
 
@@ -22,7 +21,7 @@ void setup(){
   Serial.begin(9600); //INICIALIZA A SERIAL
   Serial1.begin(9600); //INICIALIZA A SERIAL PARA O ESP8266
   WiFi.init(&Serial1); //INICIALIZA A COMUNICAÇÃO SERIAL COM O ESP8266
-  WiFi.config(IPAddress(192,168,1,110)); //COLOQUE UMA FAIXA DE IP DISPONÍVEL DO SEU ROTEADOR
+  WiFi.config(IPAddress(data.ip[0], data.ip[1], data.ip[2], data.ip[3])); //COLOQUE UMA FAIXA DE IP DISPONÍVEL DO SEU ROTEADOR
   
   //INÍCIO - VERIFICA SE O ESP8266 ESTÁ CONECTADO AO ARDUINO, CONECTA A REDE SEM FIO E INICIA O WEBSERVER
   if(WiFi.status() == WL_NO_SHIELD){
@@ -35,5 +34,5 @@ void setup(){
 }
 
 void loop(){
-  wf.update(server, buf);
+  wf.update(server, buf, data);
 }
