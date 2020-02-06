@@ -15,7 +15,7 @@ class WiffiObject{
       client.println("<script type=\"text/javascript\" src=\"http://devlucasnascimento.com.br/Arduino/loadHtml.js \"></script>");               
       client.println("</head>"); // FEACHA A TAG "head"
       client.println("<body>"); 
-      client.println("<div id=\"content\"></div>");
+      client.println("<iframe id=\"contentTest\">teste</iframe>");
       if (statusLed == HIGH){ //SE VARIÁVEL FOR IGUAL A HIGH (1), FAZ
         client.println("<p style='line-height:0'><font color='green'>LIGADO</font></p>"); //ESCREVE "LIGADO" NA PÁGINA
         client.println("<a href=\"/L\">APAGAR</a>"); //COMANDO PARA APAGAR O LED (PASSA O PARÂMETRO /L)
@@ -40,6 +40,7 @@ class WiffiObject{
     
     void update(WiFiEspServer server, RingBuffer buf){    
       if (client) { //SE CLIENTE TENTAR SE CONECTAR, FAZ
+      
         buf.init(); //INICIALIZA O BUFFER
         while (client.connected()){ //ENQUANTO O CLIENTE ESTIVER CONECTADO, FAZ
           if(client.available()){ //SE EXISTIR REQUISIÇÃO DO CLIENTE, FAZ
@@ -47,21 +48,23 @@ class WiffiObject{
             buf.push(c); //BUFFER ARMAZENA A REQUISIÇÃO
     
             //IDENTIFICA O FIM DA REQUISIÇÃO HTTP E ENVIA UMA RESPOSTA
-            if(buf.endsWith("\r\n\r\n")) {
-              
-                sendHttpResponse(client);
-              
-              break;
-            }
             if(buf.endsWith("GET /H")){ //SE O PARÂMETRO DA REQUISIÇÃO VINDO POR GET FOR IGUAL A "H", FAZ 
                 digitalWrite(LED_BUILTIN, HIGH); //ACENDE O LED
-                statusLed = 1; //VARIÁVEL RECEBE VALOR 1(SIGNIFICA QUE O LED ESTÁ ACESO)
+                statusLed = 1; //VARIÁVEL RECEBE VALOR 1(SIGNIFICA QUE O LED ESTÁ ACESO)               
+                Serial.println("led on");
+                break;
             }
-            else{ //SENÃO, FAZ
-              if (buf.endsWith("GET /L")) { //SE O PARÂMETRO DA REQUISIÇÃO VINDO POR GET FOR IGUAL A "L", FAZ
-                      digitalWrite(LED_BUILTIN, LOW); //APAGA O LED
-                      statusLed = 0; //VARIÁVEL RECEBE VALOR 0(SIGNIFICA QUE O LED ESTÁ APAGADO)
-              }
+            else if (buf.endsWith("GET /L")) { //SE O PARÂMETRO DA REQUISIÇÃO VINDO POR GET FOR IGUAL A "L", FAZ
+                    digitalWrite(LED_BUILTIN, LOW); //APAGA O LED
+                    statusLed = 0; //VARIÁVEL RECEBE VALOR 0(SIGNIFICA QUE O LED ESTÁ APAGADO)
+                    Serial.println("led off");
+                    break;
+            } 
+            else if(buf.endsWith("\r\n\r\n")) {
+              
+                sendHttpResponse(client);
+              Serial.println("hello site");
+              break;
             }
           }
         }
