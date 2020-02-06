@@ -18,11 +18,16 @@ class WiffiObject{
       client.println("</head>"); // FEACHA A TAG "head"
       client.println("<body>"); 
       client.println("<iframe id=\"contentTest\">");
-      client.println(data.ip[0]);
-      client.println("." + data.ip[1]);
-      client.println("." + data.ip[2]);
-      client.println("." + data.ip[3]);
       client.println("</iframe>");
+      client.println("<p id=\"ip\">");
+      client.println(data.ip[0]);
+      client.println(".");
+      client.println(data.ip[1]);
+      client.println(".");
+      client.println(data.ip[2]);
+      client.println(".");
+      client.println(data.ip[3]);
+      client.println("</p>");
       if (statusLed == HIGH){ //SE VARIÁVEL FOR IGUAL A HIGH (1), FAZ
         client.println("<p style='line-height:0'><font color='green'>LIGADO</font></p>"); //ESCREVE "LIGADO" NA PÁGINA
         client.println("<a href=\"/L\">APAGAR</a>"); //COMANDO PARA APAGAR O LED (PASSA O PARÂMETRO /L)
