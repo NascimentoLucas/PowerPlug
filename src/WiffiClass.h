@@ -4,10 +4,11 @@ class WiffiObject{
   //ATÉ QUE O NÚMERO DE TENTATIVAS EXPIRE (RESULTANDO EM WL_NO_SHIELD) OU QUE UMA CONEXÃO SEJA ESTABELECIDA
   //(RESULTANDO EM WL_CONNECTED)
   int statusLed = LOW; //VARIÁVEL QUE ARMAZENA O ESTADO ATUAL DO LED (LIGADO / DESLIGADO)
-  
+  bool setup = false;
   WiFiEspClient client;
 
   void sendHttpResponse(WiFiEspClient client, DataSecurityObject data){
+    setup = true;
       client.println("HTTP/1.1 200 OK"); //ESCREVE PARA O CLIENTE A VERSÃO DO HTTP
       client.println("Content-Type: text/html"); //ESCREVE PARA O CLIENTE O TIPO DE CONTEÚDO(texto/html)
       client.println("");
@@ -72,7 +73,7 @@ class WiffiObject{
                     Serial.println("led off");
                     break;
             } 
-            else if(buf.endsWith("\r\n\r\n")) {
+            else if(buf.endsWith("\r\n\r\n") & !setup) {
               
                 sendHttpResponse(client, data);
               Serial.println("hello site");
