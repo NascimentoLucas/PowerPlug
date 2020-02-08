@@ -8,16 +8,18 @@ SoftwareSerial Serial1(6, 7); //PINOS QUE EMULAM A SERIAL, ONDE O PINO 6 É O RX
 WiFiEspServer server(80); //CONEXÃO REALIZADA NA PORTA 80
 RingBuffer buf(8); //BUFFER PARA AUMENTAR A VELOCIDADE E REDUZIR A ALOCAÇÃO DE MEMÓRIA
 
-int led = 13;
+int pinPower = 8;
 
 
   
-WiffiObject wf(Serial1, server);
+WiffiObject wf(Serial1, server, pinPower);
 DataSecurityObject data(1);
 
 void setup(){
-  pinMode(led, OUTPUT); 
-  digitalWrite(led, HIGH); 
+  pinMode(pinPower, OUTPUT); 
+  pinMode(LED_BUILTIN, OUTPUT); 
+  digitalWrite(pinPower, LOW); 
+  digitalWrite(pinPower, HIGH); 
   Serial.begin(9600); //INICIALIZA A SERIAL
   Serial1.begin(9600); //INICIALIZA A SERIAL PARA O ESP8266
   WiFi.init(&Serial1); //INICIALIZA A COMUNICAÇÃO SERIAL COM O ESP8266

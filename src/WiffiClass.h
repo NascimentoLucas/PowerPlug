@@ -4,7 +4,7 @@ class WiffiObject{
   //(RESULTANDO EM WL_CONNECTED)
   
   int statusLed = LOW; //VARIÁVEL QUE ARMAZENA O ESTADO ATUAL DO LED (LIGADO / DESLIGADO)
-  
+  int pinPower;
   WiFiEspClient client;
   inline void sendLine(WiFiEspClient client, char head[],int value){
     //client.print(";");
@@ -50,7 +50,7 @@ class WiffiObject{
       //AS LINHAS ABAIXO CRIAM A PÁGINA HTML
       client.println("<body>"); //ABRE A TAG "body"
       client.println("<hr />"); //TAG HTML QUE CRIA UMA LINHA NA PÁGINA
-      if(statusLed == 1){
+      if(statusLed == 0){
         client.println("<p>Energia Ligada</p>"); 
       }
       else
@@ -67,9 +67,9 @@ class WiffiObject{
     
   public:  
     int status = WL_IDLE_STATUS; //STATUS TEMPORÁRIO ATRIBUÍDO QUANDO O WIFI É INICIALIZADO E PERMANECE ATIVO
-    WiffiObject(SoftwareSerial Serial1, WiFiEspServer server){
+    WiffiObject(SoftwareSerial Serial1, WiFiEspServer server, int pin){
       
-      //FIM - VERIFICA SE O ESP8266 ESTÁ CONECTADO AO ARDUINO, CONECTA A REDE SEM FIO E INICIA O WEBSERVER
+      pinPower = pin;
     }
   
   void update(WiFiEspServer server, RingBuffer buf, DataSecurityObject data){    
@@ -86,13 +86,15 @@ class WiffiObject{
             break;
           }
           if(buf.endsWith("GET /H")){ //SE O PARÂMETRO DA REQUISIÇÃO VINDO POR GET FOR IGUAL A "H", FAZ 
-            digitalWrite(LED_BUILTIN, HIGH); //ACENDE O LED
+            digitalWrite(pinPower, HIGH); //ACENDE O LED
+            digitalWrite(LED_BUILTIN, HIGH); //APAGA O LED
             statusLed = 1; //VARIÁVEL RECEBE VALOR 1(SIGNIFICA QUE O LED ESTÁ ACESO)
             sendHttpFeedback(client);
             break;
           }
           else{ //SENÃO, FAZ
             if (buf.endsWith("GET /L")) { //SE O PARÂMETRO DA REQUISIÇÃO VINDO POR GET FOR IGUAL A "L", FAZ
+              digitalWrite(pinPower, LOW); //APAGA O LED
               digitalWrite(LED_BUILTIN, LOW); //APAGA O LED
               statusLed = 0; //VARIÁVEL RECEBE VALOR 0(SIGNIFICA QUE O LED ESTÁ APAGADO)              
               sendHttpFeedback(client);
