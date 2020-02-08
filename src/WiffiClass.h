@@ -50,6 +50,14 @@ class WiffiObject{
       //AS LINHAS ABAIXO CRIAM A PÁGINA HTML
       client.println("<body>"); //ABRE A TAG "body"
       client.println("<hr />"); //TAG HTML QUE CRIA UMA LINHA NA PÁGINA
+      if(statusLed == 1){
+        client.println("<p>Energia Ligada</p>"); 
+      }
+      else
+      {
+        client.println("<p>Energia Desligada</p>"); 
+      }
+      
       client.println("<hr />"); //TAG HTML QUE CRIA UMA LINHA NA PÁGINA
       client.println("</body>"); //FECHA A TAG "body"
       client.println("</html>"); //FECHA A TAG "html"
