@@ -37,6 +37,25 @@ class WiffiObject{
       
       delay(1); //INTERVALO DE 1 MILISSEGUNDO
     }
+
+     void sendHttpFeedback(WiFiEspClient client){
+      client.println("HTTP/1.1 200 OK"); //ESCREVE PARA O CLIENTE A VERSÃO DO HTTP
+      client.println("Content-Type: text/html"); //ESCREVE PARA O CLIENTE O TIPO DE CONTEÚDO(texto/html)
+      client.println("");
+      client.println("<!DOCTYPE HTML>"); //INFORMA AO NAVEGADOR A ESPECIFICAÇÃO DO HTML
+      client.println("<html>"); //ABRE A TAG "html"
+      client.println("<head>"); //ABRE A TAG "head"      
+      client.println("</head>"); //FECHA A TAG "head"
+      
+      //AS LINHAS ABAIXO CRIAM A PÁGINA HTML
+      client.println("<body>"); //ABRE A TAG "body"
+      client.println("<hr />"); //TAG HTML QUE CRIA UMA LINHA NA PÁGINA
+      client.println("<hr />"); //TAG HTML QUE CRIA UMA LINHA NA PÁGINA
+      client.println("</body>"); //FECHA A TAG "body"
+      client.println("</html>"); //FECHA A TAG "html"
+      
+      delay(1); //INTERVALO DE 1 MILISSEGUNDO
+    }
     
   public:  
     int status = WL_IDLE_STATUS; //STATUS TEMPORÁRIO ATRIBUÍDO QUANDO O WIFI É INICIALIZADO E PERMANECE ATIVO
@@ -61,12 +80,14 @@ class WiffiObject{
           if(buf.endsWith("GET /H")){ //SE O PARÂMETRO DA REQUISIÇÃO VINDO POR GET FOR IGUAL A "H", FAZ 
             digitalWrite(LED_BUILTIN, HIGH); //ACENDE O LED
             statusLed = 1; //VARIÁVEL RECEBE VALOR 1(SIGNIFICA QUE O LED ESTÁ ACESO)
+            sendHttpFeedback(client);
             break;
           }
           else{ //SENÃO, FAZ
             if (buf.endsWith("GET /L")) { //SE O PARÂMETRO DA REQUISIÇÃO VINDO POR GET FOR IGUAL A "L", FAZ
               digitalWrite(LED_BUILTIN, LOW); //APAGA O LED
               statusLed = 0; //VARIÁVEL RECEBE VALOR 0(SIGNIFICA QUE O LED ESTÁ APAGADO)              
+              sendHttpFeedback(client);
               break;
             }
           }      
