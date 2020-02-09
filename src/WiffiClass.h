@@ -81,7 +81,7 @@ class WiffiObject{
           buf.push(c); //BUFFER ARMAZENA A REQUISIÇÃO
   
           //IDENTIFICA O FIM DA REQUISIÇÃO HTTP E ENVIA UMA RESPOSTA
-          if(buf.endsWith("\r\n\r\n")) {
+          if(buf.endsWith("GET /I")) {
             sendHttpResponse(client,data);
             break;
           }
@@ -90,6 +90,7 @@ class WiffiObject{
             digitalWrite(LED_BUILTIN, HIGH); //APAGA O LED
             statusLed = 1; //VARIÁVEL RECEBE VALOR 1(SIGNIFICA QUE O LED ESTÁ ACESO)
             sendHttpFeedback(client);
+            Serial.println("GET H");
             break;
           }
           else{ //SENÃO, FAZ
@@ -98,6 +99,7 @@ class WiffiObject{
               digitalWrite(LED_BUILTIN, LOW); //APAGA O LED
               statusLed = 0; //VARIÁVEL RECEBE VALOR 0(SIGNIFICA QUE O LED ESTÁ APAGADO)              
               sendHttpFeedback(client);
+              Serial.println("GET L");
               break;
             }
           }      
