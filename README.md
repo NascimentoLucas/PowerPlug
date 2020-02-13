@@ -1,5 +1,5 @@
 # PowerPlug
-  Projeto para criação de uma extenssão, usando arduino, para tomada que é controlada pela rede sem fio.
+  Projeto para criação de uma extenssão, usando arduino, para tomada que é controlada pela rede sem fio. [Site auxiliar](https://github.com/NascimentoLucas/SiteTomadaArduino).
   
 # Materiais  
   - Arduino Uno.
