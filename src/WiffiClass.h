@@ -87,7 +87,6 @@ class WiffiObject{
           }
           if(buf.endsWith("GET /H")){ //SE O PARÂMETRO DA REQUISIÇÃO VINDO POR GET FOR IGUAL A "H", FAZ 
             digitalWrite(pinPower, HIGH); //ACENDE O LED
-            digitalWrite(LED_BUILTIN, HIGH); //APAGA O LED
             statusLed = 1; //VARIÁVEL RECEBE VALOR 1(SIGNIFICA QUE O LED ESTÁ ACESO)
             sendHttpFeedback(client);
             Serial.println("GET H");
@@ -96,7 +95,6 @@ class WiffiObject{
           else{ //SENÃO, FAZ
             if (buf.endsWith("GET /L")) { //SE O PARÂMETRO DA REQUISIÇÃO VINDO POR GET FOR IGUAL A "L", FAZ
               digitalWrite(pinPower, LOW); //APAGA O LED
-              digitalWrite(LED_BUILTIN, LOW); //APAGA O LED
               statusLed = 0; //VARIÁVEL RECEBE VALOR 0(SIGNIFICA QUE O LED ESTÁ APAGADO)              
               sendHttpFeedback(client);
               Serial.println("GET L");

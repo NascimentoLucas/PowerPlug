@@ -18,7 +18,7 @@ DataSecurityObject data(1);
 void setup(){
   pinMode(pinPower, OUTPUT); 
   pinMode(LED_BUILTIN, OUTPUT); 
-  digitalWrite(pinPower, LOW); 
+  digitalWrite(LED_BUILTIN, LOW); 
   digitalWrite(pinPower, HIGH); 
   Serial.begin(9600); //INICIALIZA A SERIAL
   Serial1.begin(9600); //INICIALIZA A SERIAL PARA O ESP8266
@@ -33,6 +33,7 @@ void setup(){
     wf.status = WiFi.begin(data.ssid, data.pass);
   }
   server.begin();
+  digitalWrite(LED_BUILTIN, HIGH); 
 }
 
 void loop(){
