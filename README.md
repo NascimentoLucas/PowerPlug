@@ -9,6 +9,9 @@
 # ESP8266
   Como alternativa para a comunicação em rede, foi implementado um webserver. Para implementar foi necessário [configurar](https://blogmasterwalkershop.com.br/embarcados/esp8266/upgrade-de-firmware-do-wifi-esp8266-esp-01-atraves-do-arduino-e-conversor-usb-serial/) a memória flash do módulo. 
   Além disso foi usado um adaptador para facilitar a implementação, porém é possível usar sem.
+
+# Configuração
+  É necessário configurar a conexão na Classe DataSecurityObject, nela contem exemplos.
   
 # Pinagem no Arduino
 - Módulo rele:
